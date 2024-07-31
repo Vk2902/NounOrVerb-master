@@ -3,7 +3,6 @@ package org.vaibhavsinghcoding.nounorverb.Service;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -17,6 +16,7 @@ import org.springframework.web.client.RestTemplate;
 public class DictionaryService {
 
     private final RestTemplate restTemplate = new RestTemplate();
+	
     @Value("${dictionary.api.url}")
     private String apiUrl;
 
