@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dictionary Application</title>
+    <link rel="stylesheet" href="/styles.css">
+    <style>
+        .card {
+            border: 1px solid #ddd;
+            padding: 10px;
+            margin: 5px;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+    </style>
+</head>
+<body>
+    <h1>Dictionary
+    </h1>
+    <form id="searchForm" onsubmit="searchWord(event)">
+        <label for="word">Enter a word:</label>
+        <input type="text" id="word" name="word" required>
+        <label for="partOfSpeech">Part of Speech:</label>
+        <select id="partOfSpeech" name="partOfSpeech">
+            <option value="noun">Noun</option>
+            <option value="verb">Verb</option>
+        </select>
+        <button type="submit">Search</button>
+    </form>
+    <div id="result"></div>
+
+    <script>
+        function searchWord(event) {
+            event.preventDefault(); // Prevent form submission
+
+            // Get form data
+            const word = document.getElementById('word').value;
+            const partOfSpeech = document.getElementById('partOfSpeech').value;
+
+            // Make AJAX request
+            fetch(`/api/meaning?word=${encodeURIComponent(word)}&partOfSpeech=${encodeURIComponent(partOfSpeech)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const resultElement = document.getElementById('result');
+                    resultElement.innerHTML = ''; // Clear previous results
+
+                    if (Array.isArray(data) && data.length > 0) {
+                        data.forEach(definition => {
+                            const card = document.createElement('div');
+                            card.className = 'card';
+                            card.textContent = definition;
+                            resultElement.appendChild(card);
+                        });
+                    } else {
+                        resultElement.textContent = 'No meanings found for the specified part of speech.';
+                    }
+                })
+                .catch(error => {
+                    console.error('Error fetching meaning:', error);
+                    document.getElementById('result').textContent = 'Error retrieving meaning.';
+                });
+        }
+    </script>
+</body>
+</html>

@@ -1,5 +1,7 @@
 package org.vaibhavsinghcoding.nounorverb.Controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +18,14 @@ public class DictionaryController {
     @GetMapping("/api/meaning")
     public ResponseEntity<?> getMeaning(
             @RequestParam String word,
-            @RequestParam String partOfSpeech) {
-        return dictionaryService.getMeaning(word, partOfSpeech);
+            @RequestParam String partOfSpeech){
+        
+        ResponseEntity<List<String>> response = dictionaryService.getMeaning(word, partOfSpeech);
+
+        if (response.getStatusCode().is2xxSuccessful()) {
+            return ResponseEntity.ok(response.getBody());
+        } else {
+            return ResponseEntity.status(response.getStatusCode()).body("Error retrieving meaning.");
+        }
     }
 }
