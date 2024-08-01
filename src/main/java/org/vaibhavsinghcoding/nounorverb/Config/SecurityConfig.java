@@ -26,8 +26,7 @@ public class SecurityConfig {
                                 .requestMatchers("/api/meaning").authenticated()
                                 .anyRequest().permitAll()
                 )
-                .httpBasic(withDefaults())
-                .csrf(csrf -> csrf.disable()); // Disable CSRF for stateless API
+                .httpBasic(withDefaults());
 
         return http.build();
     }
