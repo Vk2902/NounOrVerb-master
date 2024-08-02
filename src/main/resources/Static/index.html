@@ -32,18 +32,16 @@
 
     <script>
         function searchWord(event) {
-            event.preventDefault(); // Prevent form submission
+            event.preventDefault();
 
-            // Get form data
             const word = document.getElementById('word').value;
             const partOfSpeech = document.getElementById('partOfSpeech').value;
 
-            // Make AJAX request
             fetch(`/api/meaning?word=${encodeURIComponent(word)}&partOfSpeech=${encodeURIComponent(partOfSpeech)}`)
                 .then(response => response.json())
                 .then(data => {
                     const resultElement = document.getElementById('result');
-                    resultElement.innerHTML = ''; // Clear previous results
+                    resultElement.innerHTML = '';
 
                     if (Array.isArray(data) && data.length > 0) {
                         data.forEach(definition => {
